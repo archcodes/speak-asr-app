@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 /**
  * This is the ViewModel class for Course screen. Acts as a middle layer between data and the UI components
  */
-class CourseVM(application: Application) : AndroidViewModel(application) {
+open class CourseVM(application: Application) : AndroidViewModel(application) {
     private val _course = MutableStateFlow<Course?>(null)
-    val course: StateFlow<Course?> = _course.asStateFlow()
+    open val course: StateFlow<Course?> = _course.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {

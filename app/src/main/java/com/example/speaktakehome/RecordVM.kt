@@ -10,10 +10,10 @@ import okhttp3.WebSocket
 /**
  * This is the ViewModel class for Record screen. Acts as a middle layer between data and the UI components
  */
-class RecordVM(application: Application) : AndroidViewModel(application) {
+open class RecordVM(application: Application) : AndroidViewModel(application) {
     private var webSocket: WebSocket? = null
     private val _text = MutableStateFlow("")
-    val text: StateFlow<String> = _text.asStateFlow()
+    open val text: StateFlow<String> = _text.asStateFlow()
 
     fun startWebSocket() {
         val context = getApplication<Application>().applicationContext

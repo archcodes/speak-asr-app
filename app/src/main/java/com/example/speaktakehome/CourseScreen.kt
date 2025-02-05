@@ -1,5 +1,6 @@
 package com.example.speaktakehome
 
+import android.app.Application
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,10 +36,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * This is where the UI components for the first screen - Courses - is defined
@@ -173,4 +179,37 @@ fun DayItem(day: Day, onClick: () -> Unit) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewCourseScreen() {
+    val testCourse = Course(
+        id = "te_1",
+        info = Info(
+            title = "바로 써먹는 여행영어 (필수)",
+            thumbnailImageUrl = "https://d34af8cfq8hdgo.cloudfront.net/images/courses/thumbnailImageUrl/te_1_thumbnailImage.jpg",
+            subtitle = "with Aurdey & Lana"
+        ),
+        units = listOf(Units(
+            id = "unit_0",
+            days = listOf(Day(
+                id = "day_0",
+                title = "로컬 맛집 추천해주실래요?",
+                thumbnailImageUrl = "https://d34af8cfq8hdgo.cloudfront.net/images/courses/TE1/TE1_D0_imageUrl.jpg",
+                subtitle = "Could you recommend a good restaurant with local vibes?",
+                lessons = listOf(Lesson(id = "123", title = "title", durationMin = 12))
+            ))
+        ))
+    )
+
+    class TestVM: CourseVM(Application()) {
+        override val course = MutableStateFlow<Course?>(testCourse)
+    }
+
+    CourseScreen(
+        courseVM = remember { TestVM() },
+        innerPadding = PaddingValues(16.dp),
+        navController = rememberNavController()
+    )
 }
