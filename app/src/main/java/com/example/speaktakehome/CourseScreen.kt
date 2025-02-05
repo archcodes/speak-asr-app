@@ -23,6 +23,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,24 +35,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 
+/**
+ * This is where the UI components for the first screen - Courses - is defined
+ */
 @Composable
 fun CourseScreen(
-    courses: List<Course>, innerPadding: PaddingValues, navController: NavHostController
+    courseVM: CourseVM = viewModel(), innerPadding: PaddingValues, navController: NavHostController
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize()
-            .background(color = Color(0xffF5F5F5))
-    ) {
-        courses.forEach { course ->
+    val course by courseVM.course.collectAsState()
+
+    if (course == null) {
+        // initial state. Can implement loading sign
+    } else {
+        LazyColumn(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(color = Color(0xffF5F5F5))
+        ) {
             item {
-                CourseItem(course)
+                CourseItem(course = course!!)
             }
-            course.units.forEach { unit ->
+            course!!.units.forEach { unit ->
                 item {
                     Text(
                         text = unit.id.replace("unit_", "Unit "),
@@ -61,9 +71,7 @@ fun CourseScreen(
                     )
                 }
                 items(unit.days) { day ->
-                    DayItem(day) {
-                        navController.navigate("recordScreen")
-                    }
+                    DayItem(day) { navController.navigate("recordScreen") }
                 }
             }
         }

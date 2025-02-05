@@ -1,6 +1,5 @@
 package com.example.speaktakehome
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,8 +18,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,17 +28,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import okhttp3.OkHttpClient
-import okhttp3.Request
 
+/**
+ * This is where the UI components for the second screen - Record - is defined
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecordScreen(context: Context, navController: NavController) {
-    val recognizedText = remember { mutableStateOf("") }
-    val webSocketListener = WebSocketListener(context) { text ->
-        recognizedText.value = text
-    }
+fun RecordScreen(recordVM: RecordVM = viewModel(), navController: NavController) {
+
+    val text by recordVM.text.collectAsState()
     Scaffold(topBar = {
         TopAppBar(title = {}, navigationIcon = {
             IconButton(onClick = { navController.popBackStack() }) {
@@ -57,7 +56,7 @@ fun RecordScreen(context: Context, navController: NavController) {
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    recognizedText.value,
+                    text,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,
@@ -68,16 +67,8 @@ fun RecordScreen(context: Context, navController: NavController) {
                     contentDescription = "Upload audio",
                     Modifier
                         .size(64.dp)
-                        .clickable { openWebSocket(webSocketListener) })
+                        .clickable { recordVM.startWebSocket() })
             }
         }
     }
-}
-
-fun openWebSocket(listener: WebSocketListener) {
-    val request = Request.Builder()
-        .url("wss://speak-api--feature-mobile-websocket-interview.preview.usespeak.dev/v2/ws")
-        .addHeader("x-access-token", "DFKKEIO23DSAvsdf")
-        .addHeader("x-client-info", "Speak Interview Test").build()
-    OkHttpClient().newWebSocket(request, listener)
 }

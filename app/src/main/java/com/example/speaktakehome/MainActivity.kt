@@ -1,50 +1,39 @@
 package com.example.speaktakehome
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.speaktakehome.ui.theme.SpeakTakeHomeTheme
 
+/**
+ * This class is the entry point. It is responsible for defining navigation controller map
+ * and calling CourseScreen and RecordScreen
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             SpeakTakeHomeTheme {
-                val context = LocalContext.current
-                val courses by remember {
-                    mutableStateOf(
-                        try {
-                            val jsonResponse = loadJson(context, "course.json")
-                            listOf(parseCoursesJson(jsonResponse))
-                        } catch (e: Exception) {
-                            Log.e("ARCHANA exception", e.toString())
-                            emptyList()
-                        }
-                    )
-                }
-                // creating navigation controller map
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController, startDestination = "courseScreen"
                 ) {
                     composable("courseScreen") {
+                        val courseVM: CourseVM = viewModel()
                         Scaffold { innerPadding ->
-                            CourseScreen(courses, innerPadding, navController)
+                            CourseScreen(courseVM, innerPadding, navController)
                         }
                     }
                     composable("recordScreen") {
-                        RecordScreen(context, navController)
+                        val recordVM: RecordVM = viewModel()
+                        RecordScreen(recordVM, navController)
                     }
                 }
             }

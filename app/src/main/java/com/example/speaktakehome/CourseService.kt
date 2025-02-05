@@ -4,6 +4,10 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 
+/**
+ * This is where all the data classes required to parse Course data is present.
+ * Also defining load and parse JSON service functions here.
+ */
 data class Course(
     val id: String,
     val info: Info,
