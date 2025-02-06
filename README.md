@@ -9,12 +9,13 @@ I have added a back navigation button to return to the Course screen from the Re
 Architecture :
 
 I have used a simple MVVM architecture here, using Jetpack Compose for UI elements, GSON for JSON parsing and OkHttp's WebSocket for streaming.
+
 Model : 
     CourseService.kt and RecordService.kt
         These files contain data models for parsing courses, units, days for the Course screen 
         and a data model for parsing asrStream for the Record screen.
         They also contain associated service functions to load and parse JSON files.
-
+        
 View :
     CourseScreen.kt and RecordScreen.kt
         These are written in Jetpack Compose. All UI elements displayed in the app are defined here.
@@ -22,22 +23,29 @@ View :
 ViewModel :
     CourseVm.kt and RecordVM.kt
         These viewModel classes contain business logic and handle associated states - 
-        course and text variables in CourseVM and RecordVM, respectively 
+        course and text variables in CourseVM and RecordVM, respectively. 
         This way, UI remains stateless.
 
 MainActivity sets up navigation graph, observes and reacts to the state variables defined in the ViewModel classes.
 
 Preview Tests :
-For UI components, I have added @Preview tests for easy viewing of components during app development.
+    For UI components, I have added @Preview tests for easy viewing of components during app development.
 
 
 Screenshots from the emulator (all three are added under assets folder) :
 
+
 Course screen 
+
 ![1_CourseScreen.png](src%2Fmain%2Fassets%2F1_CourseScreen.png)
 
 Record screen - before hitting upload
+
 ![2_RecordScreen.png](src%2Fmain%2Fassets%2F2_RecordScreen.png)
 
 Record screen - after hitting upload and receiving text
+
 ![3_AfterUploadingAudioStream.png](src%2Fmain%2Fassets%2F3_AfterUploadingAudioStream.png)
+
+
+
