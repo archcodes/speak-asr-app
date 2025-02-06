@@ -9,6 +9,7 @@ I have added a back navigation button to return to the Course screen from the Re
 Architecture :
 
 I have used a simple MVVM architecture here, using Jetpack Compose for UI elements, GSON for JSON parsing and OkHttp's WebSocket for streaming.
+
 Model : 
     CourseService.kt and RecordService.kt
         These files contain data models for parsing courses, units, days for the Course screen 
@@ -25,18 +26,37 @@ ViewModel :
         course and text variables in CourseVM and RecordVM, respectively 
         This way, UI remains stateless.
 
-MainActivity sets up navigation graph, observes and reacts to the state variables defined in the ViewModel classes.
+MainActivity : 
+    Sets up navigation graph, observes and reacts to the state variables defined in the ViewModel classes.
+
+Preview Tests :
+    For UI components, I have added @Preview tests for easy viewing of components during app development.
+
+Improvements to make this app production ready :
+    Implement WebSocket reconnection logic if it errors out.
+    Move WebSocket URLs and headers into config files.
+    Improve exception handling and give more meaningful insights into errors.
+    Use a logging library for centralized logging - differentiate between debug and production logs.
+    Make the UI adaptable to multiple screen sizes and different form factors.
+    Provide log-in screen to customize courses and track progress for each user.
+    Add accessibility support by providing more meaningful descriptions for UI elements and actions and improve contrast for easier usage.
+    Define CI/CD pipeline for continuous integration, testing and deployment as new features are added.
+    Add automation and Integration tests, increase unit test coverage.
+    Add analytics on number of clicks, usability of a feature etc.
+    Define an alert system for exceptions or crashes in production, probably using Grafana and Prometheus dashboards for monitoring.
 
 Screenshots from the emulator (all three are added under assets folder) :
 
 Course screen 
+
 ![1_CourseScreen.png](src%2Fmain%2Fassets%2F1_CourseScreen.png)
 
 Record screen - before hitting upload
+
 ![2_RecordScreen.png](src%2Fmain%2Fassets%2F2_RecordScreen.png)
 
 Record screen - after hitting upload and receiving text
+
 ![3_AfterUploadingAudioStream.png](src%2Fmain%2Fassets%2F3_AfterUploadingAudioStream.png)
 
-Preview Tests :
-For UI components, I have added @Preview tests for easy viewing of components during app development.
+
