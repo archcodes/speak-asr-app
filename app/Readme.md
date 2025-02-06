@@ -32,6 +32,18 @@ MainActivity :
 Preview Tests :
     For UI components, I have added @Preview tests for easy viewing of components during app development.
 
+Improvements to make this app production ready :
+    Implement WebSocket reconnection logic if it errors out.
+    Move WebSocket URLs and headers into config files.
+    Improve exception handling and give more meaningful insights into errors.
+    Use a logging library for centralized logging - differentiate between debug and production logs.
+    Make the UI adaptable to multiple screen sizes and different form factors.
+    Provide log-in screen to customize courses and track progress for each user.
+    Add accessibility support by providing more meaningful descriptions for UI elements and actions and improve contrast for easier usage.
+    Define CI/CD pipeline for continuous integration, testing and deployment as new features are added.
+    Add automation and Integration tests, increase unit test coverage.
+    Add analytics on number of clicks, usability of a feature etc.
+    Define an alert system for exceptions or crashes in production, probably using Grafana and Prometheus dashboards for monitoring.
 
 Screenshots from the emulator (all three are added under assets folder) :
 
